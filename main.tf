@@ -72,7 +72,7 @@ curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/a
 cd /tmp
 unzip mysql.zip
 cd mysql-main
-mysql -h ${aws_rds_cluster.main.enable_http_endpoint} -u ${local.username} -p${local.password} <shipping.sql
+mysql -h ${aws_rds_cluster.main.endpoint} -u ${local.username} -p${local.password} <shipping.sql
 EOF
 
   }
