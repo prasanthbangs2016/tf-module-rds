@@ -20,15 +20,15 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
 }
 
 resource "aws_db_subnet_group" "main" {
-  name       = "Roboshop-${var.env}-db-grp"
+  name       = "roboshop-${var.env}-db-grp"
   subnet_ids = var.db_subnet_ids
   tags = {
-    Name = "Roboshop-${var.env}-RDS-Db-SBgrp"
+    Name = "roboshop-${var.env}-RDS-Db-SBgrp"
   }
 }
 
 resource "aws_db_parameter_group" "default" {
-  name   = "Roboshop-${var.env}-db-param-grp"
+  name   = "roboshop-${var.env}-db-param-grp"
   family = "mysql5.7"
 
 #  parameter {
