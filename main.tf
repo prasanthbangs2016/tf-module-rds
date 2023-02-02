@@ -1,5 +1,5 @@
 resource "aws_rds_cluster" "main" {
-  cluster_identifier      = "Roboshop-${var.env}-RDS"
+  cluster_identifier      = "roboshop-${var.env}-rds"
   engine                  = "mysql"
   engine_version          = var.rds_engine_version
   availability_zones      = ["us-west-2a", "us-west-2b", "us-west-2c"]
@@ -12,7 +12,7 @@ resource "aws_rds_cluster" "main" {
 
 resource "aws_rds_cluster_instance" "cluster_instances" {
   count              = var.rds_cluster_instance_count
-  identifier         = "${var.env}-RDS-${count.index}"
+  identifier         = "${var.env}-rds-${count.index}"
   cluster_identifier = aws_rds_cluster.main.id
   instance_class     = var.rds_instance_class
   engine             = aws_rds_cluster.main.engine
