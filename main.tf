@@ -64,3 +64,16 @@ resource "aws_security_group" "rds" {
     Name = "Roboshop-${var.env}-rds"
   }
 }
+
+resource "null_resource" "mysql_schema_apply" {
+  provisioner "local-exec" {
+    command = <<EOF
+curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip"
+cd /tmp
+unzip mysql.zip
+cd mysql-main
+mysql -h ${aws_rds_cluster.main.enable_http_endpoint} -u ${local.username} -p${local.password} <shipping.sql
+EOF
+
+  }
+}
