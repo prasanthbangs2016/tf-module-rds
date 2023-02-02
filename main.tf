@@ -1,13 +1,16 @@
 resource "aws_rds_cluster" "main" {
   cluster_identifier      = "roboshop-${var.env}-rds"
-  engine                  = "mysql"
+  engine                  = "aurora-mysql"
   engine_version          = var.rds_engine_version
   availability_zones      = ["us-west-2a", "us-west-2b", "us-west-2c"]
   database_name           = "dummy"
   master_username         = local.username
   master_password         = local.password
-  backup_retention_period = 5
-  preferred_backup_window = "07:00-09:00"
+#  backup_retention_period = 5
+#  preferred_backup_window = "07:00-09:00"
+  db_subnet_group_name = aws_db_subnet_group.main.name
+  vpc_security_group_ids = [aws_security_group.rds.id]
+
 }
 
 resource "aws_rds_cluster_instance" "cluster_instances" {
@@ -27,20 +30,20 @@ resource "aws_db_subnet_group" "main" {
   }
 }
 
-resource "aws_db_parameter_group" "default" {
-  name   = "roboshop-${var.env}-db-param-grp"
-  family = "mysql5.7"
-
-#  parameter {
-#    name  = "character_set_server"
-#    value = "utf8"
-#  }
+#resource "aws_db_parameter_group" "default" {
+#  name   = "roboshop-${var.env}-db-param-grp"
+#  family = "mysql5.7"
 #
-#  parameter {
-#    name  = "character_set_client"
-#    value = "utf8"
-#  }
-}
+##  parameter {
+##    name  = "character_set_server"
+##    value = "utf8"
+##  }
+##
+##  parameter {
+##    name  = "character_set_client"
+##    value = "utf8"
+##  }
+#}
 
 resource "aws_security_group" "rds" {
   name        = "roboshop-${var.env}-rds"
