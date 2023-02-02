@@ -2,7 +2,6 @@ resource "aws_rds_cluster" "main" {
   cluster_identifier      = "roboshop-${var.env}-rds"
   engine                  = "aurora-mysql"
   engine_version          = var.rds_engine_version
-  availability_zones      = ["us-west-2a", "us-west-2b", "us-west-2c"]
   database_name           = "dummy"
   master_username         = local.username
   master_password         = local.password
@@ -10,6 +9,7 @@ resource "aws_rds_cluster" "main" {
 #  preferred_backup_window = "07:00-09:00"
   db_subnet_group_name = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.rds.id]
+  skip_final_snapshot    = true
 
 }
 
