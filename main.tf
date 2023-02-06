@@ -66,6 +66,7 @@ resource "aws_security_group" "rds" {
 }
 
 resource "null_resource" "mysql_schema_apply" {
+  depends_on = [aws_rds_cluster.main,aws_rds_cluster_instance.cluster_instances]
   provisioner "local-exec" {
     command = <<EOF
 curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip"
